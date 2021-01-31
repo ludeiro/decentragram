@@ -12,6 +12,7 @@ contract('Decentragram', ([deployer, author, tipper]) => {
   })
 
   describe('deployment', async () => {
+    
     it('deploys successfully', async () => {
       const address = await decentragram.address
       assert.notEqual(address, 0x0)
@@ -28,12 +29,39 @@ contract('Decentragram', ([deployer, author, tipper]) => {
   })
 
   describe('images', async () => {
-    let result
+    let result, imageCount
+    const hash = 'dad213213'
 
-    it('correct creation of an image', async () => {
-      result = await decentragram.uploadImage()
-      let image = await decentragram.images(1)
-      console.log(image)
+    before(async () => {
+      result = await decentragram.uploadImage(hash, 'Image description', { from: author }) 
+      imageCount = await decentragram.imageCount()
+    })
+
+
+    it('creation of an image', async () => {
+      //Success
+      assert.equal(imageCount, 1)
+      const event = result.logs[0].args
+
+      assert.equal(event.id.toNumber(), imageCount.toNumber(), 'id is correct')
+      assert.equal(event.hash, hash, 'Hash is correct')
+      assert.equal(event.description, 'Image description', 'description is correct')
+      assert.equal(event.tipAmount, '0', 'tip amount is correct')
+      assert.equal(event.author, author, 'author is correct')
+
+      await decentragram.uploadImage('', 'Image description', { from: author }).should.be.rejected 
+      await decentragram.uploadImage(hash, '', { from: author }).should.be.rejected
+      await decentragram.uploadImage(hash, 'Image description', { from: 0x0 }).should.be.rejected
+    })
+
+    it('list images', async () => {
+      const image = await decentragram.images(imageCount)
+
+      assert.equal(image.id.toNumber(), imageCount.toNumber(), 'id is correct')
+      assert.equal(image.hash, hash, 'Hash is correct')
+      assert.equal(image.description, 'Image description', 'description is correct')
+      assert.equal(image.tipAmount, '0', 'tip amount is correct')
+      assert.equal(image.author, author, 'author is correct')
     })
 
   })
