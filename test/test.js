@@ -96,6 +96,7 @@ contract('Decentragram', ([deployer, author, tipper]) => {
       // FAILURE: Tries to tip a image that does not exist
       await decentragram.tipImageOwner(99, { from: tipper, value: web3.utils.toWei('1', 'Ether')}).should.be.rejected;
     })
+     
 
   })
 
