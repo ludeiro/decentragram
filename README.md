@@ -4,7 +4,7 @@
 
 This app is based on famous photo-sharing applications. But I introduce some changes: 
 - You don´t need to create an account, you need an Ethereum Wallet.
-- The images are uploaded using [IPFS](ipfs.io): A peer-to-peer hypermedia protocol designed to make the web faster, safer, and more open.
+- The images are uploaded using [IPFS](https://ipfs.io/): A peer-to-peer hypermedia protocol designed to make the web faster, safer, and more open.
 - You can tip the authors with cryptocurrency, in this case, Ethereum
 
 ## 🔧 Project Diagram:
